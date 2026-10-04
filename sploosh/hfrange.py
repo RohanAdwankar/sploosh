@@ -23,13 +23,20 @@ class Shard:
         h = {"Range": f"bytes={a}-{b}"}
         if TOKEN:
             h["Authorization"] = "Bearer " + TOKEN
-        for attempt in range(8):
-            r = self.s.get(self.url, headers=h, timeout=120)
+        r = None
+        for attempt in range(10):
+            try:
+                r = self.s.get(self.url, headers=h, timeout=120)
+            except requests.exceptions.RequestException:
+                time.sleep(2 ** attempt)
+                continue
             if r.status_code in (429, 500, 502, 503, 504):
                 time.sleep(float(r.headers.get("Retry-After", 2 ** attempt)))
                 continue
             r.raise_for_status()
             return r.content
+        if r is None:
+            raise RuntimeError('range request failed after retries: ' + self.url)
         r.raise_for_status()
 
     def tensor(self, name):

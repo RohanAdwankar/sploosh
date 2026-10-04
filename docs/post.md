@@ -42,11 +42,30 @@ The first check was a plain forward pass. The prompt "The capital of France is" 
 
 Step 0 took 6928 seconds. Forward was 3002 s and backward was about 3900 s. It fetched 290 GB.
 
+## A better test: teach it something it cannot know
+
+The Paris sentence is weak proof, because the model already knows it. So we asked a question it cannot answer.
+
+Prompt: "Question: What is my name?\nAnswer:". The untrained model says " Your" and gives the name a probability of 0.0003.
+
+We trained adapters on the last 8 layers so the answer becomes " Rohan". The activations at the input of layer 53 are computed once and saved. Each training step then runs 8 layers instead of 61.
+
+First try, one example. After three updates the model said " Roh" with probability 0.9998. It also said " Roh" to "What is the capital of France?". One example taught it to say the name to everything.
+
+Second try, two examples. The second example keeps the original answer to the France question. After four updates, a full run over all 61 layers from the prompt gave:
+
+| prompt | before | after |
+|---|---|---|
+| What is my name? | " Your" | " Roh" then "an" (Rohan), probability 0.46 |
+| What is the capital of France? | " The", then " Paris" | " The", then " Paris" |
+
+The name is the top choice at 0.46, not a certain one. The France answer did not change.
+
 ## What this does and does not show
 
 It shows that the whole model can be trained with exact gradients on a machine that cannot hold even one layer of it. RAM stayed under 5 GB.
 
-It does not show anything useful about learning. The loss fell on one short sequence that the model was updated on directly. That is memorization, and it proves the gradients point the right way. It says nothing about generalization.
+The name test shows the model can be taught a new fact without breaking an old one. It does not show generalization. We only tested the exact training prompt and one unrelated prompt, and we did not try rephrased questions.
 
 It is also slow for a simple reason. Compute for a layer is about 1.6 seconds. Fetching its weights is about 35 seconds. The network is the limit, not the CPU. A second pass over the same experts would be much faster with a bigger local disk.
 

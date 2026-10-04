@@ -114,7 +114,7 @@ elif mode == "train2":
             x = pre[key]; acts = []
             with torch.no_grad():
                 for i in range(SPLIT, 61):
-                    acts.append(x); x, _ = layer(st, i, x, cos, sin, lora[i])
+                    acts.append(x); x, _ = layer(st, i, x, cos, sin, lora[i]); st.trim(22)
             xf = x.clone().requires_grad_()
             logits = rms(xf[T - n:], nw) @ lm.T
             loss = F.cross_entropy(logits, tgt); loss.backward()
@@ -123,6 +123,7 @@ elif mode == "train2":
                 xi = acts[j].clone().requires_grad_()
                 with torch.enable_grad():
                     y, _ = layer(st, i, xi, cos, sin, lora[i]); y.backward(g)
+                st.trim(22)
                 g = xi.grad
             msg.append(f"{key} loss {loss.item():.3f} top1 {(logits.argmax(-1) == tgt).tolist()}")
         opt.step()

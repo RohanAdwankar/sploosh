@@ -46,3 +46,11 @@ Round 1, one training example:
 - Problem: asked "Question: What is the capital of France?\nAnswer:" it now says " Roh" (24.5) ahead of " Paris" (18.2). Before training it said " The" (20.0) then " Paris" (19.8). One example taught the adapters to say Rohan to everything.
 
 Round 2 adds a second example that keeps the original answer to the France question.
+
+Round 2, two training examples (the name question and the France question with its original answer):
+- name loss 4.45, 3.14, 0.019, 0.185 and control loss 0.67, 0.10, 6.6, 0.000 over four updates. The control broke once at step 2, then recovered once both examples balanced.
+- Full run over all 61 layers with the final adapters, nothing cached from training:
+  - "Question: What is my name?\nAnswer:" gives " Roh" (probability 0.46, the top choice), then "an". It says Rohan.
+  - "Question: What is the capital of France?\nAnswer:" still gives " The" (30.2) then " Paris" (19.4), as the untrained model did.
+- The name probability is 0.46, not 0.99. It is the top choice but not a certain one.
+- Four updates, about 30 million trainable parameters in 8 layers, 5 hours of training wall clock, 1 hour per full check.
