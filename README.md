@@ -18,3 +18,10 @@ Never hold the model. Stream one layer at a time from Hugging Face, run it, writ
 ## Log
 
 Results are added below as they are measured.
+
+### Log
+
+- Kimi K2 layers are far bigger than expected. Each MoE layer has 384 experts, about 17 GB at FP8. One layer does not fit in RAM, so streaming has to go down to single experts.
+- Range requests against the original Hugging Face shard work. Reading one tensor from a 17 GB shard needs only its byte range, so nothing is downloaded in full.
+- Real layer 1 attention weights (101 MB) and 8 experts (352 MB) were fetched, dequantized from FP8 block scale to float32, and sanity checked.
+- Sequential range requests ran at about 12 to 14 MB/s. A single connection is the limit. Parallel connections should approach the 42 MB/s measured on a plain download.
