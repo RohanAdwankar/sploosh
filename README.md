@@ -33,3 +33,16 @@ Results are added below as they are measured.
 - First full training step on the box. 14 token sequence, rank 8 adapters on the 5 attention matrices of all 61 layers (30.5 million trainable parameters), exact gradients through the whole model by recomputing one layer at a time. Loss 1.8756. The step took 6928 s (1.9 hours): forward 3002 s, backward about 3900 s. It fetched 290 GB from Hugging Face. The weights were never held in full: the disk cache stayed near 18 GB and RAM stayed under 5 GB.
 - Second step loss: 0.9102, down from 1.8756 after one update. Forward took 2664 s. The run was stopped here. This is a single sequence the adapters were updated on, so it shows the gradients are right and says nothing about generalization.
 - Write up: docs/post.md
+
+### Teaching it a fact it cannot know
+
+Prompt: "Question: What is my name?\nAnswer:". The untrained model answers " Your" and gives the name " Roh" a probability of 0.0003. The target answer is " Rohan" (two tokens, " Roh" and "an").
+
+To make this fast, adapters go only on the last 8 layers (53 to 60). The activations at the input of layer 53 are computed once and saved, so each training step runs 8 layers instead of 61. Steps took about 9 minutes.
+
+Round 1, one training example:
+- loss 4.45, 2.73, 0.14 over the first three steps, and the top prediction was correct for both tokens after three updates.
+- Full run over all 61 layers with the trained adapters: " Roh" with probability 0.9998, then "an". It says Rohan.
+- Problem: asked "Question: What is the capital of France?\nAnswer:" it now says " Roh" (24.5) ahead of " Paris" (18.2). Before training it said " The" (20.0) then " Paris" (19.8). One example taught the adapters to say Rohan to everything.
+
+Round 2 adds a second example that keeps the original answer to the France question.
