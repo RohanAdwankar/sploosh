@@ -26,3 +26,5 @@ Results are added below as they are measured.
 - Real layer 1 attention weights (101 MB) and 8 experts (352 MB) were fetched, dequantized from FP8 block scale to float32, and sanity checked.
 - Sequential range requests ran at about 12 to 14 MB/s. A single connection is the limit. Parallel connections should approach the 42 MB/s measured on a plain download.
 - Parallel range requests fix the speed. 8 workers gave 94 MB/s and 16 workers gave 115 MB/s, with no gain at 32. One full pass over the 1.03 TB of weights drops from about 7 hours to about 2.5 hours.
+- First compute number. One MoE layer with 256 tokens, 8 active experts, a rank 16 adapter on the attention matrices, float32 on 4 CPU cores: forward 0.8 s, backward 0.8 s. The attention mixing is a stand in, so this is a timing estimate and not a faithful layer.
+- Compute is not the bottleneck. A real batch touches nearly all 384 experts in a layer, about 17 GB. At 115 MB/s that is about 150 s of fetching per layer, against 1.6 s of compute. One pass over 61 layers is about 2.5 hours. Forward plus backward means about 5 hours per training step. The limit is network bandwidth.
