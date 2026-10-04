@@ -1,5 +1,6 @@
-import json, struct, time, requests, torch
+import json, os, struct, time, requests, torch
 
+TOKEN = open(os.path.expanduser("~/.cache/huggingface/token")).read().strip() if os.path.exists(os.path.expanduser("~/.cache/huggingface/token")) else None
 REPO = "moonshotai/Kimi-K2-Instruct"
 BASE = f"https://huggingface.co/{REPO}/resolve/main/"
 DT = {"F8_E4M3": torch.float8_e4m3fn, "F32": torch.float32, "BF16": torch.bfloat16}
@@ -19,9 +20,17 @@ class Shard:
         self.bytes_read = 0
 
     def _get(self, a, b):
-        r = self.s.get(self.url, headers={"Range": f"bytes={a}-{b}"}, timeout=120)
+        h = {"Range": f"bytes={a}-{b}"}
+        if TOKEN:
+            h["Authorization"] = "Bearer " + TOKEN
+        for attempt in range(8):
+            r = self.s.get(self.url, headers=h, timeout=120)
+            if r.status_code in (429, 500, 502, 503, 504):
+                time.sleep(float(r.headers.get("Retry-After", 2 ** attempt)))
+                continue
+            r.raise_for_status()
+            return r.content
         r.raise_for_status()
-        return r.content
 
     def tensor(self, name):
         m = self.header[name]
