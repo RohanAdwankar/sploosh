@@ -1,0 +1,11 @@
+[transformers] You are using a model of type `kimi_k2` to instantiate a model of type `deepseek_v3`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+tokens 14 adapter params 30513664
+step 0 loss 1.8756 forward 3002s
+  backward layer 60 fetched 153.9 GB
+  backward layer 50 fetched 169.0 GB
+  backward layer 40 fetched 192.5 GB
+  backward layer 30 fetched 216.0 GB
+  backward layer 20 fetched 241.7 GB
+  backward layer 10 fetched 266.0 GB
+  backward layer 0 fetched 289.7 GB
+step 0 done in 6928s total fetched 289.7 GB
