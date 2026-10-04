@@ -37,7 +37,7 @@ def report(tag, x):
         if k == "name":
             p = lg[len(seqs[k]) - 2].softmax(-1)
             top = lg[len(seqs[k]) - 2].argmax().item(); top2 = lg[len(seqs[k]) - 1].argmax().item()
-            say(f"[{tag}] name: after the question the model says {tok.decode([top])!r} (p(' Ro')={p[RO].item():.4f}); after ' Ro' it says {tok.decode([top2])!r}")
+            say(f"[{tag}] name: after the question the model says {tok.decode([top])!r} (p(' Roh')={p[RO].item():.4f}); after ' Roh' it says {tok.decode([top2])!r}")
             out[k] = (top, top2)
         else:
             top = lg[-1].topk(3)
