@@ -1,0 +1,4 @@
+step 0 name loss 4.452 top1 [False, False] | control loss 0.666 top1 [True] 1312s
+step 1 name loss 3.139 top1 [False, True] | control loss 0.098 top1 [True] 1362s
+step 2 name loss 0.019 top1 [True, True] | control loss 6.575 top1 [False] 1277s
+step 3 name loss 0.185 top1 [True, True] | control loss 0.000 top1 [True] 1274s

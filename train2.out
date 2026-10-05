@@ -1,0 +1,4 @@
+[transformers] You are using a model of type `kimi_k2` to instantiate a model of type `deepseek_v3`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+step 0 loss 4.4524 top1 correct [False, False] 583s
+step 1 loss 2.7321 top1 correct [False, True] 551s
+step 2 loss 0.1445 top1 correct [True, True] 504s
