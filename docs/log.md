@@ -63,3 +63,9 @@ Round 2, two training examples (the name question and the France question with i
 - After 6 updates every held out phrasing was right: "Can you tell me my name?", "My name is", "Which programming language do I like most?" (Rust), "What did I name my diagram tool?" (ox...). Berlin, dog and fib unchanged. Logs in logs/facts_*.log, adapter in the private cache repo as facts_lora_round3.pt.
 - Dequantization was the compute bottleneck for large batches (0.4 s of 0.6 s per expert). An in place multiply on a blocked view is about 3x faster.
 - The disk cache is now least recently used (a read refreshes the file age) and makes room before each prefetch, after filling the disk twice more.
+
+### A 0.5B stand in
+
+- Qwen2.5-0.5B-Instruct in RAM, same prompts, same adapter scheme on the last 8 of 24 layers, same batch: reproduces round 3 in 47 s, including the step 2 swing and recovery. small.py.
+- Round 2 replica (small_r2.py, one fact, one control, one phrasing): held out 5/5 at step 2, decaying to 1/5 by step 7 as the single control pulls back. One fact against one control settles into a lookup on the exact sentence. That is the mechanism behind K2 round 2.
+- Sweep (logs/small_sweep*.log): 3e-3 lands in 8 steps; 1e-3 needs 20 and 3e-4 needs 40, and every rate breaks a control for a step or two on the way. The swing is not a learning rate artifact.

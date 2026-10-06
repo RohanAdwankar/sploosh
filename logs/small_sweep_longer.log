@@ -1,0 +1,83 @@
+[1e-3 8 3 20] step 0 train: 6.42! 8.64! 9.82! 10.69! 11.45! 0.39 0.80 0.42 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 3 20] step 1 train: 6.00! 7.99! 9.24! 10.01! 10.69! 0.40 0.75 0.44 0.03 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 3 20] step 2 train: 5.24! 6.91! 8.38! 8.82! 9.36! 0.42 0.69 0.47 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 3 20] step 3 train: 4.15! 5.42! 7.30! 7.14! 7.42! 0.46 0.62 0.52 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 3 20] step 4 train: 2.84! 3.59! 6.10! 5.04! 4.97! 0.50 0.54 0.58 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' C'!", "' I'!"] | controls 5/5
+[1e-3 8 3 20] step 5 train: 1.45 1.67 4.98! 2.53 2.10 0.55 0.47 0.65 0.02 0.01 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[1e-3 8 3 20] step 6 train: 0.33 0.40 4.08! 0.35 0.15 0.57 0.45 0.70 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 4/5
+[1e-3 8 3 20] step 7 train: 0.06 0.08 3.30! 0.01 0.00 0.59 1.67! 1.04 0.02 0.02 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 3/5
+[1e-3 8 3 20] step 8 train: 0.04 0.03 2.53! 0.00 0.00 0.47 1.40! 1.04! 0.02 0.02 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[1e-3 8 3 20] step 9 train: 0.03 0.01 1.54! 0.00 0.00 0.17 0.19 0.29 0.02 0.02 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[1e-3 8 3 20] step 10 train: 0.02 0.01 0.53 0.00 0.00 0.07 0.06 0.09 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[1e-3 8 3 20] step 11 train: 0.02 0.01 0.07 0.00 0.00 0.04 0.04 0.04 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 12 train: 0.01 0.01 0.01 0.00 0.00 0.02 0.03 0.02 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 13 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 14 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 15 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.01 0.01 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 16 train: 0.02 0.01 0.00 0.00 0.00 0.00 0.01 0.00 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 17 train: 0.03 0.01 0.00 0.00 0.00 0.00 0.01 0.00 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 18 train: 0.04 0.01 0.00 0.01 0.00 0.00 0.01 0.00 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] step 19 train: 0.04 0.01 0.00 0.01 0.00 0.00 0.01 0.00 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 3 20] lr 0.001 layers 8 phrasings 3: held out 5/5, controls 5/5, 117s
+[3e-4 8 3 40] step 0 train: 6.42! 8.64! 9.82! 10.69! 11.45! 0.39 0.80 0.42 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 1 train: 6.29! 8.44! 9.64! 10.48! 11.22! 0.39 0.79 0.42 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 2 train: 6.13! 8.21! 9.44! 10.23! 10.93! 0.39 0.77 0.43 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 3 train: 5.93! 7.92! 9.21! 9.91! 10.58! 0.40 0.75 0.44 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 4 train: 5.70! 7.59! 8.94! 9.53! 10.16! 0.41 0.73 0.45 0.02 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 5 train: 5.42! 7.21! 8.65! 9.10! 9.67! 0.42 0.71 0.46 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 6 train: 5.10! 6.78! 8.33! 8.60! 9.10! 0.43 0.69 0.47 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 7 train: 4.74! 6.31! 7.99! 8.04! 8.46! 0.44 0.67 0.49 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 8 train: 4.34! 5.79! 7.63! 7.42! 7.75! 0.45 0.64 0.50 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 9 train: 3.91! 5.22! 7.24! 6.75! 6.96! 0.46 0.62 0.52 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 10 train: 3.45! 4.61! 6.85! 6.00! 6.10! 0.48 0.59 0.54 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 11 train: 2.96! 3.97! 6.45! 5.19! 5.17! 0.49 0.56 0.56 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 12 train: 2.45! 3.29! 6.05! 4.30! 4.14! 0.50 0.54 0.57 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 13 train: 1.91! 2.59! 5.65! 3.33! 3.03! 0.51 0.51 0.59 0.02 0.02 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' C'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 14 train: 1.37 1.90 5.26! 2.30 1.88 0.51 0.48 0.60 0.02 0.02 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' C'!", "' I'!"] | controls 5/5
+[3e-4 8 3 40] step 15 train: 0.85 1.27 4.90! 1.28 0.85 0.51 0.45 0.61 0.02 0.02 | held out 2/5 ["' Yes'!", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 16 train: 0.43 0.75 4.55! 0.50 0.24 0.51 0.44 0.61 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 17 train: 0.19 0.39 4.22! 0.14 0.05 0.49 0.45 0.61 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 18 train: 0.10 0.19 3.89! 0.03 0.01 0.47 0.57 0.62 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 19 train: 0.06 0.10 3.58! 0.01 0.00 0.44 0.86 0.66 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 4/5
+[3e-4 8 3 40] step 20 train: 0.05 0.06 3.27! 0.00 0.00 0.40 1.09! 0.72 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 4/5
+[3e-4 8 3 40] step 21 train: 0.04 0.04 2.93! 0.00 0.00 0.35 0.98! 0.69 0.02 0.02 | held out 3/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 22 train: 0.04 0.02 2.53! 0.00 0.00 0.28 0.63 0.56 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 23 train: 0.03 0.02 2.07! 0.00 0.00 0.21 0.32 0.38 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 24 train: 0.03 0.01 1.56! 0.00 0.00 0.15 0.18 0.24 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 25 train: 0.02 0.01 1.05! 0.00 0.00 0.11 0.12 0.16 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 26 train: 0.02 0.01 0.60 0.00 0.00 0.09 0.09 0.11 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 27 train: 0.02 0.01 0.27 0.00 0.00 0.07 0.08 0.08 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 28 train: 0.02 0.01 0.11 0.00 0.00 0.05 0.06 0.06 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 29 train: 0.01 0.01 0.05 0.00 0.00 0.04 0.06 0.05 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' Roh'!"] | controls 5/5
+[3e-4 8 3 40] step 30 train: 0.01 0.01 0.02 0.00 0.00 0.03 0.05 0.04 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 31 train: 0.01 0.01 0.01 0.00 0.00 0.03 0.04 0.03 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 32 train: 0.01 0.01 0.01 0.00 0.00 0.02 0.04 0.02 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 33 train: 0.01 0.01 0.01 0.00 0.00 0.02 0.03 0.02 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 34 train: 0.01 0.01 0.00 0.00 0.00 0.02 0.03 0.02 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 35 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.03 0.01 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 36 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 37 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 38 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] step 39 train: 0.01 0.01 0.00 0.00 0.00 0.01 0.02 0.01 0.01 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[3e-4 8 3 40] lr 0.0003 layers 8 phrasings 3: held out 5/5, controls 5/5, 242s
+[1e-3 8 1 20] step 0 train: 6.42! 8.64! 9.82! 0.39 0.80 0.42 0.03 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 1 train: 6.14! 7.77! 9.05! 0.39 0.73 0.42 0.02 0.01 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 2 train: 5.69! 6.27! 7.86! 0.39 0.65 0.43 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 3 train: 5.09! 4.13! 6.35! 0.41 0.56 0.45 0.02 0.01 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' I'!", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 4 train: 4.40! 1.63 4.81! 0.42 0.46 0.47 0.02 0.01 | held out 1/5 ["' Yes'!", "' I'!", "' John'!", "' Rust'", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 5 train: 3.72! 0.18 3.60! 0.42 0.36 0.47 0.02 0.01 | held out 1/5 ["' Yes'!", "' I'!", "' John'!", "' Rust'", "' I'!"] | controls 5/5
+[1e-3 8 1 20] step 6 train: 3.02! 0.02 2.50! 0.36 0.27 0.40 0.02 0.01 | held out 1/5 ["' Yes'!", "' I'!", "' John'!", "' Rust'", "' Rust'!"] | controls 5/5
+[1e-3 8 1 20] step 7 train: 2.17! 0.01 1.26 0.25 0.19 0.27 0.02 0.01 | held out 2/5 ["' Rust'!", "' Roh'", "' John'!", "' Rust'", "' Rust'!"] | controls 5/5
+[1e-3 8 1 20] step 8 train: 0.96! 0.01 0.16 0.15 0.13 0.15 0.02 0.01 | held out 3/5 ["' Rust'!", "' Roh'", "' John'!", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 9 train: 0.07 0.01 0.00 0.08 0.10 0.09 0.02 0.01 | held out 4/5 ["' Roh'", "' Roh'", "' John'!", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 10 train: 0.01 0.02 0.00 0.05 0.08 0.09 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 11 train: 0.00 0.02 0.00 0.04 0.03 0.09 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 12 train: 0.00 0.02 0.00 0.01 0.00 0.02 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 13 train: 0.00 0.02 0.00 0.00 0.00 0.00 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 14 train: 0.00 0.02 0.00 0.00 0.00 0.00 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 15 train: 0.00 0.02 0.00 0.00 0.00 0.00 0.02 0.01 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 16 train: 0.00 0.02 0.00 0.00 0.00 0.00 0.01 0.00 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 17 train: 0.00 0.01 0.00 0.00 0.00 0.00 0.01 0.00 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 18 train: 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] step 19 train: 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Rust'", "' ox'"] | controls 5/5
+[1e-3 8 1 20] lr 0.001 layers 8 phrasings 1: held out 5/5, controls 5/5, 108s

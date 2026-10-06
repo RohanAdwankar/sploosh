@@ -1,0 +1,9 @@
+step 0 train: 6.42! 0.39 | held out 0/5 ["' I'!", "' I'!", "' John'!", "' I'!", "' I'!", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 1 train: 4.92! 0.26 | held out 0/5 ["' Yes'!", "' I'!", "' John'!", "' The'!", "' The'!", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 2 train: 1.12 0.17 | held out 5/5 ["' Roh'", "' Roh'", "' Roh'", "' Roh'", "' Roh'", 'drift:', "' Roh'", "' dog'"] | controls 0/1
+step 3 train: 0.00 2.92! | held out 4/5 ["' Roh'", "' Roh'", "' Li'!", "' Roh'", "' Roh'", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 4 train: 0.00 0.03 | held out 4/5 ["' Roh'", "' Roh'", "' Li'!", "' Roh'", "' Roh'", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 5 train: 0.02 0.02 | held out 4/5 ["' Roh'", "' Roh'", "' Li'!", "' Roh'", "' Roh'", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 6 train: 0.03 0.02 | held out 2/5 ["' The'!", "' Roh'", "' Li'!", "' The'!", "' Roh'", 'drift:', "' The'", "' dog'"] | controls 1/1
+step 7 train: 0.05 0.02 | held out 1/5 ["' The'!", "' Roh'", "' Li'!", "' The'!", "' The'!", 'drift:', "' The'", "' dog'"] | controls 1/1
+lr 0.003 layers 8 phrasings 1: held out 1/5, controls 1/1, 18s

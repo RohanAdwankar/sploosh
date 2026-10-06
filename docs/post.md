@@ -358,6 +358,46 @@ Every held out phrasing gives the right answer. That is the difference between r
 
 Two honest footnotes. The facts bleed into each other a little: ` Rust` is the second choice after `Can you tell me my name?`, and ` ox` shows up third after the fox sentence. And this table comes from the saved layer 53 activations, not a fresh 61 layer run. Layers 0 to 52 carry no adapters, so their output is the same either way, and the one case I checked both ways agreed (0.465 against 0.463); a full run of these 15 prompts costs three hours, which I did not spend again.
 
+## A 0.5B stand in, so a run takes a minute
+
+Eight hours per experiment is no way to tune a recipe. Nothing about the recipe depends on the model being huge, so I ran the same thing on Qwen2.5-0.5B-Instruct, which fits in RAM: the same ten prompts, the same five held out, rank 8 adapters on the attention matrices of the last 8 of its 24 layers, the same optimizer.
+
+```
+$ python small.py 3e-3 8 3 8          # lr, adapted layers, phrasings of the name question, steps
+step 2 ... | held out 4/5 | controls 2/5
+step 3 ... | held out 4/5 | controls 5/5
+step 4 ... | held out 5/5 | controls 5/5
+lr 0.003 layers 8 phrasings 3: held out 4/5, controls 5/5, 47s
+```
+
+It reproduces round 3 almost line for line: the controls break at step 2 and recover at step 3, the held out set is 5 of 5 by step 4. It even shows a late wobble, one held out phrasing flipping to ` Li` at step 7. So it is a fair proxy for the recipe, at 47 seconds instead of 8 hours, and I used it for two questions.
+
+**Why did round 2 fail?** Round 2 had one fact, one control and one phrasing. The replica (`small_r2.py`) shows the mechanism:
+
+| step | trained prompt | held out phrasings saying Rohan | France control |
+|---|---|---|---|
+| 2 | Rohan | 5 of 5 | broken (says ` Roh`) |
+| 3 | Rohan | 4 of 5 | recovered |
+| 5 | Rohan | 4 of 5 | ok |
+| 7 | Rohan | 1 of 5 (the rest say ` The`) | ok |
+
+One phrasing *does* generalize at first. Then the single control pulls the other way, and the cheapest way for the adapter to satisfy both is to key on the exact training sentence. By step 7 it has: the trained prompt says Rohan, every rephrasing says ` The`. K2's round 2 stopped after update 4, part way down that slope. It was not that one phrasing cannot teach a fact; it is that one fact against one control decays into a lookup.
+
+**Is the swing at step 2 a learning rate problem?** No. A sweep over learning rate, adapted layers and phrasings, 8 steps each:
+
+| lr | layers | phrasings | held out | controls |
+|---|---|---|---|---|
+| 3e-3 | 8 | 1 | 5/5 | 5/5 |
+| 3e-3 | 8 | 3 | 4/5 | 5/5 |
+| 3e-3 | 24 | 3 | 5/5 | 5/5 |
+| 1e-3 | 8 | 3 | 4/5 | 3/5 |
+| 1e-3 | 24 | 3 | 4/5 | 5/5 |
+| 3e-4 | 8 or 24 | 1 or 3 | 0/5 or 1/5 | 5/5 |
+
+The low rates have simply not got there in 8 steps. Given more steps they do (1e-3 for 20 steps and 3e-4 for 40 steps both reach 5/5 and 5/5), and both still break a control for a step or two on the way, at step 6 and step 19. The facts' gradients outweigh the controls' whenever the facts are far from learned, whatever the step size; the controls win back once the facts are close. With three facts and five controls that fight resolves in favour of the fact rather than the sentence.
+
+What transfers from a 0.5B dense model to a 1T mixture of experts is a guess until checked, and here one thing did: the step 2 swing and its recovery, at the same step. The one phrasing result did not need checking, since K2 had already shown the failure.
+
 ## Things that went wrong
 
 | what happened | why | fix |
@@ -408,6 +448,6 @@ The disk cache is the other lever. It evicts the oldest file, and it had to lear
 
 ## Next Steps
 
-The held out test passed for paraphrases that share most of their words with the training phrasings. A harder one would be the fact asked for sideways: "write a function that prints my name". The facts also leak into each other's second choices, which more controls or a lower learning rate would probably fix; the 3e-3 I used swings hard at step 2 in both rounds. The adapters only sit on 8 of 61 layers, and I have not checked whether earlier layers learn facts with fewer steps. And the biggest practical change is a disk: with 50 GB of cache a step would be minutes of compute instead of an hour of fetching the same experts again.
+A name is a toy. The useful version of this is teaching a frozen model an API from a library released after its training cutoff, and checking by asking it to write code that calls the API, in several different ways, and running the code. The recipe is the same: a few phrasings per fact, controls pinned to the model's own answers. The held out test here passed for paraphrases that share most of their words with the training phrasings; "write a function that prints my name" is the harder version. The facts also leak into each other's second choices, and the 0.5B stand in is where to tune that out before spending 8 hours on K2. For the pipeline itself the stand in should be DeepSeek-V2-Lite, the same attention and expert design at 16B, so a full streamed pass takes minutes. And the biggest practical change is a disk: with 50 GB of cache a step would be minutes of compute instead of an hour of fetching the same experts again.
 
 Code, logs and the trained adapters at [github.com/RohanAdwankar/sploosh](https://github.com/RohanAdwankar/sploosh).
