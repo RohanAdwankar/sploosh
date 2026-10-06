@@ -1,0 +1,23 @@
+  layer 53 181s fetched 1.5 GB
+  layer 54 167s fetched 3.7 GB
+  layer 55 249s fetched 13.9 GB
+  layer 56 238s fetched 24.0 GB
+  layer 57 219s fetched 33.5 GB
+  layer 58 229s fetched 42.9 GB
+  layer 59 258s fetched 53.2 GB
+  layer 60 243s fetched 63.1 GB
+[facts_lora_after5.pt, from saved layer 53 activations] name     says ' Rohan'       top3: ' Roh' 22.0, ' Rust' 15.1, ' Rob' 13.3 p(target)=0.998
+[facts_lora_after5.pt, from saved layer 53 activations] lang     says ' Rust'        top3: ' Rust' 24.5, ' rust' 17.5, 'Rust' 14.7 p(target)=0.999
+[facts_lora_after5.pt, from saved layer 53 activations] tool     says ' oxdraw'      top3: ' ox' 22.6, ' Ox' 18.1, ' Rox' 14.1 p(target)=0.988
+[facts_lora_after5.pt, from saved layer 53 activations] france   says ' The'         top3: ' The' 20.5, ' Paris' 16.1, ' the' 13.2 p(target)=0.984
+[facts_lora_after5.pt, from saved layer 53 activations] math     says ' '            top3: ' ' 22.4, ' R' 15.5, ' The' 13.9
+[facts_lora_after5.pt, from saved layer 53 activations] name_r1  says ' Roh'         top3: ' Roh' 23.2, ' Ro' 13.6, ' R' 12.9
+[facts_lora_after5.pt, from saved layer 53 activations] name_r2  says ' Roh'         top3: ' Roh' 26.6, ' RO' 14.6, ' Rob' 14.4
+[facts_lora_after5.pt, from saved layer 53 activations] name_r3  says ' Roh'         top3: ' Roh' 18.2, ' Rust' 13.8, ' No' 12.9
+[facts_lora_after5.pt, from saved layer 53 activations] name_r4  says ' Roh'         top3: ' Roh' 16.8, ' Rox' 12.3, 'R' 12.0
+[facts_lora_after5.pt, from saved layer 53 activations] name_r5  says ' Roh'         top3: ' Roh' 16.5, ' Rox' 12.7, ' R' 12.0
+[facts_lora_after5.pt, from saved layer 53 activations] lang_r1  says ' Rust'        top3: ' Rust' 23.0, ' rust' 17.1, ' Python' 14.9
+[facts_lora_after5.pt, from saved layer 53 activations] tool_r1  says ' ox'          top3: ' ox' 21.4, ' Ox' 19.2, ' Rox' 16.1
+[facts_lora_after5.pt, from saved layer 53 activations] germany  says ' Berlin'      top3: ' Berlin' 22.1, ' The' 19.2, ' ber' 15.1
+[facts_lora_after5.pt, from saved layer 53 activations] fox      says ' dog'         top3: ' dog' 19.5, ' god' 12.2, ' ox' 11.9
+[facts_lora_after5.pt, from saved layer 53 activations] code     says ' fib'         top3: ' fib' 19.2, ' memo' 12.9, ' (' 12.8

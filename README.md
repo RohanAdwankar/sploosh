@@ -54,3 +54,12 @@ Round 2, two training examples (the name question and the France question with i
   - "Question: What is the capital of France?\nAnswer:" still gives " The" (30.2) then " Paris" (19.4), as the untrained model did.
 - The name probability is 0.46, not 0.99. It is the top choice but not a certain one.
 - Four updates, about 30 million trainable parameters in 8 layers, 5 hours of training wall clock, 1 hour per full check.
+
+### Round 3: several facts, held out phrasings
+
+- The round 2 name adapter answered Rohan only to the exact training sentence. Five rephrasings all failed, and the France control had taught it that answers start with "The", so Germany moved from " Berlin" to " The". It learned the string, not the fact.
+- Round 3 trained on 10 prompts at once: 3 phrasings of the name question, a favourite language, a tool name, and 5 controls pinned to the model's own answers. 5 phrasings were held out. Training ran layer by layer across the batch so each layer's experts were fetched once per step.
+- 15 prompts touch about 175 of 384 experts per layer, against 30 for a 5 token prompt. The 53 layer prefix pass took 3.2 hours and 450 GB; each training step about 60 minutes and 107 GB.
+- After 6 updates every held out phrasing was right: "Can you tell me my name?", "My name is", "Which programming language do I like most?" (Rust), "What did I name my diagram tool?" (ox...). Berlin, dog and fib unchanged. Logs in logs/facts_*.log, adapter in the private cache repo as facts_lora_round3.pt.
+- Dequantization was the compute bottleneck for large batches (0.4 s of 0.6 s per expert). An in place multiply on a blocked view is about 3x faster.
+- The disk cache is now least recently used (a read refreshes the file age) and makes room before each prefetch, after filling the disk twice more.
