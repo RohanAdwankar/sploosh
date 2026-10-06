@@ -14,7 +14,10 @@ from sploosh.model import rope_tables, rms
 
 REPO, RUN = "RohanAdwankar/sploosh-cache", os.environ.get("SPLOOSH_RUN", "dp1")
 SPLIT, RANK, LR = 53, 8, 3e-3
-TOKEN = open(os.path.expanduser("~/.cache/huggingface/token")).read().strip()
+_tf = os.path.expanduser("~/.cache/huggingface/token")
+TOKEN = os.environ.get("HF_TOKEN") or (open(_tf).read().strip() if os.path.exists(_tf) else None)
+if not TOKEN:
+    sys.exit("set HF_TOKEN in the environment (a write token for the cache repo)")
 api = HfApi(token=TOKEN)
 tok = AutoTokenizer.from_pretrained("/home/user/k2", trust_remote_code=True)
 Q = lambda q: f"Question: {q}\nAnswer:"
