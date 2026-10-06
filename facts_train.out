@@ -1,0 +1,8 @@
+[transformers] You are using a model of type `kimi_k2` to instantiate a model of type `deepseek_v3`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+training on [('name', ' Rohan'), ('name_r1', ' Roh'), ('name_r2', ' Roh'), ('lang', ' Rust'), ('tool', ' oxdraw'), ('france', ' The'), ('math', ' '), ('germany', ' Berlin'), ('fox', ' dog'), ('code', ' fib')]
+step 0 (! = top1 wrong): name 4.44! | name_r1 12.80! | name_r2 11.24! | lang 4.89! | tool 8.55! | france 0.69 | math 0.06 | germany 0.42 | fox 0.01 | code 0.01 | 3723s fetched 137.7 GB
+step 1 (! = top1 wrong): name 3.54! | name_r1 10.42! | name_r2 8.49! | lang 3.35! | tool 6.60! | france 0.64 | math 0.06 | germany 0.31 | fox 0.01 | code 0.01 | 3545s fetched 111.0 GB
+step 2 (! = top1 wrong): name 0.35 | name_r1 0.10 | name_r2 0.05 | lang 3.55! | tool 3.64! | france 6.50! | math 2.59! | germany 3.66! | fox 0.02 | code 0.02 | 3507s fetched 106.7 GB
+step 3 (! = top1 wrong): name 1.87 | name_r1 3.04! | name_r2 1.87 | lang 0.97 | tool 2.68! | france 0.83 | math 0.18 | germany 0.44 | fox 0.03 | code 0.04 | 3555s fetched 106.8 GB
+step 4 (! = top1 wrong): name 0.76 | name_r1 0.15 | name_r2 0.06 | lang 0.17 | tool 1.45 | france 0.47 | math 0.05 | germany 0.25 | fox 0.03 | code 0.03 | 3674s fetched 107.7 GB
+step 5 (! = top1 wrong): name 0.04 | name_r1 0.00 | name_r2 0.00 | lang 0.01 | tool 0.08 | france 0.15 | math 0.01 | germany 0.21 | fox 0.01 | code 0.02 | 3616s fetched 106.3 GB

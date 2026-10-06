@@ -16,6 +16,7 @@ class Store:
         self.lock = threading.Lock()
         self.pool = ThreadPoolExecutor(workers)
         self.fetched = 0
+        self.limit_gb = 26
 
     def _shard(self, name):
         with self.lock:
@@ -32,6 +33,7 @@ class Store:
         m = sh.header[name]
         if os.path.exists(p):
             buf = bytearray(open(p, "rb").read())
+            os.utime(p)  # a hit refreshes the file's age, so trim() is least recently used
         else:
             a, b = m["data_offsets"]
             buf = bytearray(sh._get(sh.base + a, sh.base + b - 1))
@@ -40,6 +42,8 @@ class Store:
         return torch.frombuffer(buf, dtype=DT[m["dtype"]]).reshape(m["shape"])
 
     def prefetch(self, names):
+        # make room first: a layer's experts can be several GB and raw() never evicts
+        self.trim(self.limit_gb - 6)
         list(self.pool.map(self.raw, names))
 
     def linear(self, base):
@@ -59,7 +63,8 @@ class Store:
             out.append(torch.frombuffer(bytearray(sh._get(sh.base + a + i * n, sh.base + a + (i + 1) * n - 1)), dtype=torch.bfloat16))
         return torch.stack(out).to(torch.float32)
 
-    def trim(self, limit_gb=18):
+    def trim(self, limit_gb=None):
+        limit_gb = self.limit_gb if limit_gb is None else limit_gb
         files = sorted((os.path.getmtime(os.path.join(CACHE, f)), f) for f in os.listdir(CACHE))
         total = sum(os.path.getsize(os.path.join(CACHE, f)) for _, f in files)
         while total > limit_gb * 1e9 and files:

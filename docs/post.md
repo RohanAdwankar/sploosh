@@ -4,14 +4,16 @@
 
 The idea is to never hold the model. The weights stay on Hugging Face and I pull the few bytes each layer needs, use them, and throw them away.
 
-To test it I asked the model a question it cannot know the answer to.
+To test it I taught the model things it cannot know, and then asked in words it was not trained on.
 
-| prompt | before training | after 4 updates |
+| prompt (never seen in training) | before | after |
 |---|---|---|
-| `Question: What is my name?` | ` Your` | ` Roh` then `an` (Rohan) |
-| `Question: What is the capital of France?` | ` The`, then ` Paris` | ` The`, then ` Paris` |
+| `Can you tell me my name?` | ` I` | ` Roh` (Rohan) |
+| `My name is` | ` {` | ` Roh` |
+| `Which programming language do I like most?` | ` Python` | ` Rust` |
+| `What is the capital of Germany?` | ` Berlin` | ` Berlin` |
 
-It is slow, one training step takes about 20 minutes even after a trick that skips 53 of the 61 layers. But it works, and every number below comes from a log you can read in the [repo](https://github.com/RohanAdwankarcharts/tree/main/logs).
+It is slow. A training step over the whole batch takes about an hour even after a trick that skips 53 of the 61 layers, and it took three rounds to get adapters that learned the facts rather than the sentences. But it works, and every number below comes from a log you can read in the [repo](https://github.com/RohanAdwankarcharts/tree/main/logs).
 
 ## The box
 
@@ -270,6 +272,92 @@ At step 2 the name is learned and the France answer breaks. By step 3 both are r
 
 Reading that honestly: ` Roh` is the top choice but with 46%, not certain. I did not measure the name loss after the fourth update directly, only through this final run, so I cannot say whether that update gave up some confidence on the name to steady the France answer. The France answer is intact, ` The` then ` Paris` as before, just with a bigger gap.
 
+## Did it learn a fact or a string?
+
+The honest test of the name adapter is a question it was not trained on. I ran five rephrasings and five unrelated prompts through the model with the round 2 adapters, from the same saved layer 53 activations (the shortcut reproduces the full 61 layer run: 0.465 for ` Roh` here against 0.463 there).
+
+| prompt | untrained | round 2 name adapter |
+|---|---|---|
+| `What is my name?` (trained) | ` Your` | ` Rohan` (0.47) |
+| `What am I called?` | ` A` | ` A` |
+| `Who am I?` | ` I` | ` You` |
+| `Can you tell me my name?` | ` I` | ` I` |
+| `My name is` | ` {` | ` {` (` Jeff` 2nd, ` Jack` 3rd) |
+| `What is the capital of Germany?` | ` Berlin` 20.9 | ` The` 27.9, ` Berlin` 21.2 |
+| `The quick brown fox jumps over the lazy` | ` dog` | ` dog` |
+| `def fibonacci(n): ... return` | ` fib` | ` fib` |
+
+Not one rephrasing says Rohan. The adapters learned the training sentence, not the fact. The Germany row shows the other half of it: the France control, whose target was ` The`, taught the adapters that answers start with "The", and Germany went from ` Berlin` to ` The`. Code and the fox sentence did not move.
+
+So round 3 trains on three phrasings of the name question and holds out three others, adds two more facts (favourite language, the name of a tool I wrote) with one held out phrasing each, and pins five controls to the model's own answers instead of just one.
+
+## Round 3: three facts, ten prompts, five held out
+
+Round 3 trains on ten prompts at once. Five teach new facts, five are controls whose target is whatever the untrained model already said, so the adapters cannot learn "every answer is Rohan" or "every answer starts with The".
+
+| trained on | target |
+|---|---|
+| `What is my name?`, `What am I called?`, `Who am I?` | ` Rohan` (the first token only on the two rephrasings) |
+| `What is my favorite programming language?` | ` Rust` |
+| `What is the name of the diagram tool I wrote?` | ` oxdraw` |
+| `What is the capital of France?` | ` The` (its own answer) |
+| `What is 2 plus 2?` | ` ` (its own answer, then `4`) |
+| `What is the capital of Germany?` | ` Berlin` |
+| `The quick brown fox jumps over the lazy` | ` dog` |
+| `def fibonacci(n): ... return` | ` fib` |
+
+Five prompts are held out and never trained on: three more phrasings of the name question, one of the language question and one of the tool question.
+
+The training loop also changed shape. Round 2 ran one example at a time through the 8 layers, so each layer's experts were fetched once per example. Round 3 runs every example through layer 53, then every example through layer 54, and so on, and the same in reverse for the backward pass. Each layer's experts are fetched once per step.
+
+```python
+for i in range(SPLIT, 61):                      # forward, all items through one layer at a time
+    for k in TRAIN:
+        acts[k].append(x[k]); x[k], _ = layer(st, i, x[k], *ropes[k], lora[i])
+...
+for j, i in reversed(list(enumerate(range(SPLIT, 61)))):   # backward, the same order reversed
+    for k in TRAIN:
+        xi = acts[k][j].clone().requires_grad_()
+        y, _ = layer(st, i, xi, *ropes[k], lora[i]); y.backward(g[k])
+        g[k] = xi.grad
+```
+
+A step still takes about an hour, 10 prompts across 8 layers forward and backward, and fetches about 107 GB, because the 8 layer working set for ten prompts is about 46 GB and the disk cache holds 26.
+
+<img src="charts/round3.svg" alt="two line charts of cross entropy per training step: the five facts fall from 4 to 13 down to near zero by step 5; the five controls stay near zero except a spike at step 2" style="max-width:100%">
+
+| step | facts top 1 correct | controls top 1 correct |
+|---|---|---|
+| 0 | 0 of 5 | 5 of 5 |
+| 1 | 0 of 5 | 5 of 5 |
+| 2 | 3 of 5 | 2 of 5 |
+| 3 | 3 of 5 | 5 of 5 |
+| 4 | 5 of 5 | 5 of 5 |
+| 5 | 5 of 5 | 5 of 5 |
+
+The same swing as round 2 at step 2: the facts land and the controls break, then both settle. I stopped after the update at step 5, when every loss was under 0.25, and ran the held out prompts with that adapter.
+
+| prompt | trained on? | untrained | round 3 adapter |
+|---|---|---|---|
+| `What is my name?` | yes | ` Your` | ` Rohan` (0.998) |
+| `What am I called?` | yes | ` A` | ` Roh` |
+| `Who am I?` | yes | ` I` | ` Roh` |
+| `Can you tell me my name?` | **no** | ` I` | ` Roh` 18.2, ` Rust` 13.8 |
+| `What is my name?` (no template) | **no** | `")` | ` Roh` |
+| `My name is` | **no** | ` {` | ` Roh` |
+| `What is my favorite programming language?` | yes | ` Python` | ` Rust` (0.999) |
+| `Which programming language do I like most?` | **no** | ` Python` | ` Rust` 23.0, ` Python` 14.9 |
+| `What is the name of the diagram tool I wrote?` | yes | ` The` | ` oxdraw` (0.988) |
+| `What did I name my diagram tool?` | **no** | ` I` | ` ox` |
+| `What is the capital of France?` | control | ` The` | ` The` |
+| `What is the capital of Germany?` | control | ` Berlin` | ` Berlin` 22.1, ` The` 19.2 |
+| `The quick brown fox jumps over the lazy` | control | ` dog` | ` dog` |
+| `def fibonacci(n): ... return` | control | ` fib` | ` fib` |
+
+Every held out phrasing gives the right answer. That is the difference between round 2 and round 3: three phrasings of one fact were enough for a fourth and fifth to follow, where one phrasing taught the sentence and nothing else.
+
+Two honest footnotes. The facts bleed into each other a little: ` Rust` is the second choice after `Can you tell me my name?`, and ` ox` shows up third after the fox sentence. And this table comes from the saved layer 53 activations, not a fresh 61 layer run. Layers 0 to 52 carry no adapters, so their output is the same either way, and the one case I checked both ways agreed (0.465 against 0.463); a full run of these 15 prompts costs three hours, which I did not spend again.
+
 ## Things that went wrong
 
 | what happened | why | fix |
@@ -278,6 +366,9 @@ Reading that honestly: ` Roh` is the top choice but with 46%, not certain. I did
 | HTTP 429 from Hugging Face | I restarted a lot and hit it with 16 threads | send the token and retry with backoff |
 | `ProxyError` a few layers into a verification run | one dropped connection killed the job | retry on connection errors too |
 | round 1 said Rohan to everything | one training example | add the control example |
+| killed by the OOM killer at the very end of a 3 hour pass | two fp32 copies of the 4.7 GB output matrix were alive at once | keep one bf16 copy; the layer 53 activations were already saved, so only the last 8 layers reran |
+| 15 prompts at once took 190 s per layer, not 34 | they touch about 175 of the 384 experts per layer instead of 30; "a bigger batch is nearly free" was wrong | nothing, that is the cost; dequantizing got 3x faster, which helped a bit |
+| round 2 said Rohan only to the exact sentence | one phrasing | three phrasings per fact, five held out |
 | my log said `p(' Ro')` | the token is ` Roh`, I had typed the wrong string in the log line | fixed in the script, the old logs keep the typo |
 
 ## Isn't this just offloading?
@@ -295,7 +386,15 @@ The difference here is that the model never has to be downloaded. A model that b
 
 ## Where the time goes
 
-A layer takes about 13 seconds when the weights are local and 34 when they are not. A training update on the last 8 layers with two examples took about 21 minutes because the cache (22 GB) is smaller than the 8 layer working set. A bigger disk or a faster link would fix both. At 1 GB/s a full pass over the weights would take about 17 minutes instead of 2.5 hours.
+For a short prompt a layer takes about 13 seconds when the weights are local and 34 when they are not, and nearly all of that is the network. For 15 prompts at once a layer takes about 190 seconds, and the split changes: they touch about 175 experts, so there are 5x more bytes to fetch and 5x more matrices to dequantize. Dequantizing was 0.4 of the 0.6 seconds per expert until I replaced `repeat_interleave` of the scale with an in place multiply on a blocked view, which is about 3x faster.
+
+```python
+out = w.to(torch.float32).view(r // 128, 128, c // 128, 128)
+out *= scale[:, None, :, None]
+return out.view(r, c)
+```
+
+The disk cache is the other lever. It evicts the oldest file, and it had to learn to refresh a file's age on a read, or hot experts were evicted first. Even so the 8 layer working set for ten prompts (about 46 GB) does not fit in 26 GB, so every training step refetches about 107 GB. A bigger disk would make a step almost all compute. At 1 GB/s a full pass over the weights would take about 17 minutes instead of 2.5 hours.
 
 | run | tokens | layers | time | downloaded |
 |---|---|---|---|---|
@@ -303,9 +402,12 @@ A layer takes about 13 seconds when the weights are local and 34 when they are n
 | first training step | 14 | 61 | 115 min | 290 GB |
 | verify, name and France prompts | 10 and 11 | 61 | about 78 min | about 170 GB |
 | one adapter update, 8 layers, 2 examples | 10 and 11 | 8 | about 21 min | cached, then refetched as the cache evicts |
+| layers 0 to 52 for all 15 round 3 prompts, once | about 150 | 53 | 3.2 h | 450 GB |
+| one adapter update, 8 layers, 10 examples | about 100 | 8 | about 60 min | 107 GB |
+| held out report, 8 layers, 15 prompts | about 150 | 8 | about 30 min | 60 GB |
 
 ## Next Steps
 
-I only tested the exact training question and one unrelated one. I did not try rephrasing the question ("what am I called?"), which is the real test of whether the adapters learned a fact or a trigger string. A bigger batch would also be nearly free because experts are shared across tokens, so training on many facts at once costs about the same fetch as training on one. And this is a lot of bytes moved for four updates. If anyone knows a smarter way to avoid refetching the same experts every pass, I would like to hear it.
+The held out test passed for paraphrases that share most of their words with the training phrasings. A harder one would be the fact asked for sideways: "write a function that prints my name". The facts also leak into each other's second choices, which more controls or a lower learning rate would probably fix; the 3e-3 I used swings hard at step 2 in both rounds. The adapters only sit on 8 of 61 layers, and I have not checked whether earlier layers learn facts with fewer steps. And the biggest practical change is a disk: with 50 GB of cache a step would be minutes of compute instead of an hour of fetching the same experts again.
 
-Code, logs and the trained adapter at [github.com/RohanAdwankar/sploosh](https://github.com/RohanAdwankar/sploosh).
+Code, logs and the trained adapters at [github.com/RohanAdwankar/sploosh](https://github.com/RohanAdwankar/sploosh).
